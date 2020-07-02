@@ -21,10 +21,12 @@
 
 package com.toy.anagrams.ui;
 
+import com.toy.anagrams.lib.FileWordLibrary;
 import com.toy.anagrams.lib.WordLibrary;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -60,7 +62,11 @@ public class Anagrams extends JFrame {
         /* Create and display the form */
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new Anagrams().setVisible(true);
+                try {
+                    new Anagrams().setVisible(true);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -69,8 +75,8 @@ public class Anagrams extends JFrame {
     private WordLibrary wordLibrary;
 
     /** Creates new form Anagrams */
-    public Anagrams() {
-        wordLibrary = WordLibrary.getDefault();
+    public Anagrams() throws IOException {
+        wordLibrary = new FileWordLibrary();
         
         initComponents();
         getRootPane().setDefaultButton(guessButton);
