@@ -30,44 +30,39 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-/**
- * Implementation of the logic for the Anagram Game application.
- */
-public final class FileWordLibrary extends WordLibrary {
 
+public final class ScrambledWordLibrary extends WordLibrary {
+    private final WordLibrary library;
 
-    private final List<String> wordList;
-
-    /**
-     * Singleton class.
-     */
-    public FileWordLibrary() throws IOException {
-        wordList = Files.readAllLines(new File("word.txt").toPath(), Charset.defaultCharset() );
+    public ScrambledWordLibrary(WordLibrary library) {
+        this.library = library;
     }
 
-    /**
-     * Gets the word at a given index.
-     * @param idx index of required word
-     * @return word at that index in its natural form
-     */
-    public String getWord(int idx) {
-        return wordList.get(idx);
+    public String getWord(int idx){
+        return library.getWord(idx);
     }
 
     public String getScrambledWord(int idx) {
-
-     return getWord(idx);
-     }
+        Consumer<char[]> charArraySorter = letters -> {
+            Arrays.sort(letters);
+        };
+        Function<String, String> stringScrambler = word -> {
+            char[] letters = word.toCharArray();
+            charArraySorter.accept(letters);
+            return new String(letters);
+        };
+        String word = getWord(idx);
+        return stringScrambler.apply(word);
+    }
 
 
     public int getSize() {
-        return wordList.size();
+        return library.getSize();
     }
 
 
     public boolean isCorrect(int idx, String userGuess) {
-
-        return userGuess.equals(getWord(idx));
+        return library.isCorrect(idx, userGuess);
     }
 
 }

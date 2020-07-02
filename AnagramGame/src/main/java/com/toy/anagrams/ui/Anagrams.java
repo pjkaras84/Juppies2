@@ -22,6 +22,7 @@
 package com.toy.anagrams.ui;
 
 import com.toy.anagrams.lib.FileWordLibrary;
+import com.toy.anagrams.lib.ScrambledWordLibrary;
 import com.toy.anagrams.lib.WordLibrary;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -76,7 +77,7 @@ public class Anagrams extends JFrame {
 
     /** Creates new form Anagrams */
     public Anagrams() throws IOException {
-        wordLibrary = new FileWordLibrary();
+        wordLibrary = new ScrambledWordLibrary(new FileWordLibrary());
         
         initComponents();
         getRootPane().setDefaultButton(guessButton);
